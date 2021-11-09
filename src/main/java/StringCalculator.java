@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class StringCalculator {
 
+    private String[] values;
+
     public static void main(String[] args) {
         StringCalculator calculator = new StringCalculator();
         calculator.input();
@@ -10,9 +12,15 @@ public class StringCalculator {
     public void input() {
         Scanner sc = new Scanner(System.in);
         System.out.print("input> ");
-        String[] values = sc.nextLine().split(" ");
+        values = sc.nextLine().split(" ");
+    }
+
+    public void inputAuto(String inputString) {
+        values = inputString.split(" ");
+    }
+
+    public double calc() {
         int a =0;
-        int b;
         char op = ' ';
         boolean afterOp = false;
         double result = 0;
@@ -45,7 +53,6 @@ public class StringCalculator {
                 afterOp = true;
             }
         }
-
-        System.out.println("result = " + result);
+        return result;
     }
 }

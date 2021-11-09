@@ -1,7 +1,9 @@
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringCalculatorTest {
@@ -14,9 +16,11 @@ class StringCalculatorTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("문자열 계산기 테스트")
     void calc() {
-        calculator.input();
+        calculator.inputAuto("3 + 4 + 3");
+        double result = calculator.calc();
+        assertThat(result).isEqualTo(10.0);
     }
 
 }
