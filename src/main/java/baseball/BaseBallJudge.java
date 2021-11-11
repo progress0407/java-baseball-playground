@@ -8,33 +8,33 @@ public class BaseBallJudge {
 
     private static final int MAX_NUMBER_SIZE = 3;
 
-    private final List<String> messages = new ArrayList<>();
+    private final List<JudgeStatus> messages = new ArrayList<>();
 
     // 얼마나 맞추었는지를 판단
     public List<String> judgeNumbers(int[] userNumbers, int[] computerNumbers) {
         judgeStrike(userNumbers, computerNumbers);
         judgeBall(userNumbers, computerNumbers);
         if (messages.size() == 1) {
-            messages.add("낫싱");
+            messages.add(JudgeStatus.NOTHING);
         }
         return formatMessage();
     }
 
     // 문제에서 조언한 메시지대로 다시 포맷팅한다
     private List<String> formatMessage() {
-        int strikeCount = (int) messages.stream().filter(e->e.equals("스트라이크")).count();
-        int ballCount = (int) messages.stream().filter(e -> e.equals("볼")).count();
+        int strikeCount = (int) messages.stream().filter(e->e == JudgeStatus.STRIKE).count();
+        int ballCount = (int) messages.stream().filter(e -> e == JudgeStatus.BALL).count();
 
         List<String> resultMessages = new LinkedList<>();
         if (strikeCount > 0) {
-            resultMessages.add(strikeCount + "스트라이크");
+            resultMessages.add(strikeCount + JudgeStatus.STRIKE.name);
         }
         if (ballCount > 0) {
-            resultMessages.add(ballCount + "볼");
+            resultMessages.add(ballCount + JudgeStatus.BALL.name);
         }
 
         if (resultMessages.size() == 0) {
-            resultMessages.add("낫싱");
+            resultMessages.add(JudgeStatus.NOTHING.name);
         }
         return resultMessages;
     }
@@ -44,7 +44,7 @@ public class BaseBallJudge {
             int userNumber = userNumbers[i];
             int computerNumber = computerNumbers[i];
             if (userNumber == computerNumber) {
-                messages.add("스트라이크");
+                messages.add(JudgeStatus.STRIKE);
             }
         }
     }
@@ -58,7 +58,7 @@ public class BaseBallJudge {
                 int userNumber = userNumbers[i];
                 int computerNumber = computerNumbers[j];
                 if (userNumber == computerNumber) {
-                    messages.add("볼");
+                    messages.add(JudgeStatus.BALL);
                 }
             }
         }
