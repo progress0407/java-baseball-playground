@@ -1,6 +1,7 @@
 package baseball;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BaseBallJudge {
@@ -24,12 +25,16 @@ public class BaseBallJudge {
         int strikeCount = (int) messages.stream().filter(e->e.equals("스트라이크")).count();
         int ballCount = (int) messages.stream().filter(e -> e.equals("볼")).count();
 
-        List<String> resultMessages = new ArrayList<>();
+        List<String> resultMessages = new LinkedList<>();
         if (strikeCount > 0) {
             resultMessages.add(strikeCount + "스트라이크");
         }
         if (ballCount > 0) {
             resultMessages.add(ballCount + "볼");
+        }
+
+        if (resultMessages.size() == 0) {
+            resultMessages.add("낫싱");
         }
         return resultMessages;
     }

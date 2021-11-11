@@ -19,10 +19,15 @@ public class Prompt {
 
     private BaseBallJudge baseBallJudge = new BaseBallJudge();
 
+    public void initWithSpecificNumbers(String input) {
+        int[] numbers = convertStringToIntArray(input);
+        computerNumbers[0] = numbers[0];
+        computerNumbers[1] = numbers[1];
+        computerNumbers[2] = numbers[2];
+    }
+
     public void initComputerNumbers() {
-        computerNumbers[0] = 4;
-        computerNumbers[1] = 2;
-        computerNumbers[2] = 5;
+
     }
 
     public void print() {
@@ -41,10 +46,13 @@ public class Prompt {
 
         String inputNumber = scanner.nextLine();
 
+        return convertStringToIntArray(inputNumber);
+    }
+
+    private int[] convertStringToIntArray(String inputNumber) {
         String[] stringNumbers = inputNumber.split("");
         return Arrays.stream(stringNumbers)
                 .mapToInt(Integer::parseInt)
                 .toArray();
-
     }
 }
