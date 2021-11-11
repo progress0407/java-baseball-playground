@@ -65,4 +65,22 @@ class NumberBaseballMainTest {
         // then
         Assertions.assertThat(results).containsExactly("낫싱");
     }
+
+    @Test
+    @DisplayName("판단 테스트: 연속된 테스트")
+    // 가장 마지막의 상태만이 기록되어야 한다
+    void judgeTest5() {
+        // given & when
+        int[] userNumbers = {5, 1, 2}; // 2볼
+
+        baseBallJudge.judgeNumbers(userNumbers, computerNumbers);
+
+        userNumbers = new int[]{3, 1, 5}; // 1스트라이크
+
+        List<String> results = baseBallJudge.judgeNumbers(userNumbers, computerNumbers);
+
+        // then
+        Assertions.assertThat(results).containsExactly("1스트라이크");
+    }
+
 }

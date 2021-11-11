@@ -8,10 +8,11 @@ public class BaseBallJudge {
 
     private static final int MAX_NUMBER_SIZE = 3;
 
-    private final List<JudgeStatus> messages = new ArrayList<>();
+    private List<JudgeStatus> messages;
 
     // 얼마나 맞추었는지를 판단
     public List<String> judgeNumbers(int[] userNumbers, int[] computerNumbers) {
+        messages = new ArrayList<>();
         judgeStrike(userNumbers, computerNumbers);
         judgeBall(userNumbers, computerNumbers);
         if (messages.size() == 1) {
@@ -22,13 +23,14 @@ public class BaseBallJudge {
 
     // 문제에서 조언한 메시지대로 다시 포맷팅한다
     private List<String> formatMessage() {
-        int strikeCount = (int) messages.stream().filter(e->e == JudgeStatus.STRIKE).count();
-        int ballCount = (int) messages.stream().filter(e -> e == JudgeStatus.BALL).count();
-
         List<String> resultMessages = new LinkedList<>();
+        int strikeCount = getJudgeStatusCount(JudgeStatus.STRIKE);
+        int ballCount = getJudgeStatusCount(JudgeStatus.BALL);
+
         if (strikeCount > 0) {
             resultMessages.add(strikeCount + JudgeStatus.STRIKE.name);
         }
+
         if (ballCount > 0) {
             resultMessages.add(ballCount + JudgeStatus.BALL.name);
         }
@@ -36,7 +38,13 @@ public class BaseBallJudge {
         if (resultMessages.size() == 0) {
             resultMessages.add(JudgeStatus.NOTHING.name);
         }
+
         return resultMessages;
+    }
+
+    // 상태별 개수
+    private int getJudgeStatusCount(JudgeStatus status) {
+        return (int) messages.stream().filter(e -> e == status).count();
     }
 
     private void judgeStrike(int[] userNumbers, int[] computerNumbers) {
@@ -64,4 +72,7 @@ public class BaseBallJudge {
         }
     }
 
+    public boolean isAllStrike() {
+        return getJudgeStatusCount(JudgeStatus.STRIKE) == 3;
+    }
 }
