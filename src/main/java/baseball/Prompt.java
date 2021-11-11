@@ -1,9 +1,6 @@
 package baseball;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.out;
 
@@ -16,7 +13,6 @@ public class Prompt {
     private int[] userNumbers;
 
 
-
     private BaseBallJudge baseBallJudge = new BaseBallJudge();
 
     public void initWithSpecificNumbers(String input) {
@@ -26,8 +22,11 @@ public class Prompt {
         computerNumbers[2] = numbers[2];
     }
 
+    // 랜덤 값 생성
     public void initComputerNumbers() {
-
+        computerNumbers[0] = 1 + new Random().nextInt(9);
+        computerNumbers[1] = 1 + new Random().nextInt(9);
+        computerNumbers[2] = 1 + new Random().nextInt(9);
     }
 
     public void run() {
