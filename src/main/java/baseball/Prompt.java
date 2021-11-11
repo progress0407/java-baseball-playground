@@ -1,5 +1,6 @@
 package baseball;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -10,23 +11,18 @@ public class Prompt {
 
     private static final int MAX_NUMBER_SIZE = 3;
 
-    private int[] computerNumbers;
+    private final int[] computerNumbers = new int[MAX_NUMBER_SIZE];
 
     private int[] userNumbers;
 
     private List<String> messages;
 
+    private BaseBallJudge baseBallJudge = new BaseBallJudge();
+
     public void initComputerNumbers() {
-
-        computerNumbers = new int[MAX_NUMBER_SIZE];
-
         computerNumbers[0] = 4;
-        computerNumbers[1] = 5;
-        computerNumbers[2] = 6;
-
-        /*for (int i = 0; i < MAX_NUMBER_SIZE; i++) {
-            computerNumbers[i] = Random
-        }*/
+        computerNumbers[1] = 2;
+        computerNumbers[2] = 5;
     }
 
     public void print() {
@@ -34,20 +30,11 @@ public class Prompt {
         while (true) {
             out.print("숫자를 입력해 주세요 : ");
             userNumbers = inputNumbers(scanner);
-            judgeNumbers();
+            messages = baseBallJudge.judgeNumbers(userNumbers, computerNumbers);
             out.println(messages);
             break;
         }
         scanner.close();
-    }
-
-    // 얼마나 맞추었는지를 판단
-    private void judgeNumbers() {
-        for (int i = 0; i < MAX_NUMBER_SIZE; i++) {
-            if (computerNumbers[i] == userNumbers[i]) {
-                messages.add("스트라이크");
-            }
-        }
     }
 
     private int[] inputNumbers(Scanner scanner) {
