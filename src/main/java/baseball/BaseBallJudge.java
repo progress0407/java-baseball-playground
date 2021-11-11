@@ -7,16 +7,31 @@ public class BaseBallJudge {
 
     private static final int MAX_NUMBER_SIZE = 3;
 
-    private List<String> meessages = new ArrayList<>();
+    private final List<String> messages = new ArrayList<>();
 
     // 얼마나 맞추었는지를 판단
     public List<String> judgeNumbers(int[] userNumbers, int[] computerNumbers) {
         judgeStrike(userNumbers, computerNumbers);
         judgeBall(userNumbers, computerNumbers);
-        if (meessages.size() == 1) {
-            meessages.add("낫싱");
+        if (messages.size() == 1) {
+            messages.add("낫싱");
         }
-        return meessages;
+        return formatMessage();
+    }
+
+    // 문제에서 조언한 메시지대로 다시 포맷팅한다
+    private List<String> formatMessage() {
+        int strikeCount = (int) messages.stream().filter(e->e.equals("스트라이크")).count();
+        int ballCount = (int) messages.stream().filter(e -> e.equals("볼")).count();
+
+        List<String> resultMessages = new ArrayList<>();
+        if (strikeCount > 0) {
+            resultMessages.add(strikeCount + "스트라이크");
+        }
+        if (ballCount > 0) {
+            resultMessages.add(ballCount + "볼");
+        }
+        return resultMessages;
     }
 
     private void judgeStrike(int[] userNumbers, int[] computerNumbers) {
@@ -24,7 +39,7 @@ public class BaseBallJudge {
             int userNumber = userNumbers[i];
             int computerNumber = computerNumbers[i];
             if (userNumber == computerNumber) {
-                meessages.add("스트라이크");
+                messages.add("스트라이크");
             }
         }
     }
@@ -38,7 +53,7 @@ public class BaseBallJudge {
                 int userNumber = userNumbers[i];
                 int computerNumber = computerNumbers[j];
                 if (userNumber == computerNumber) {
-                    meessages.add("볼");
+                    messages.add("볼");
                 }
             }
         }
