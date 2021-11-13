@@ -19,4 +19,6 @@ public class ValidationUtilsTest {
         assertThat(ValidationUtils.valid(9)).isTrue();
         assertThat(ValidationUtils.valid(10)).isFalse();
     }
+
+
 }
