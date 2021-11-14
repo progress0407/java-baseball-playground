@@ -1,60 +1,30 @@
 package baseball;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Balls {
 
-    List<Ball> balls;
+    private List<Ball> balls;
 
-    public Balls(List<Ball> balls) {
-        this.balls = balls;
-//        this.balls = Collections.unmodifiableList(balls);
+    public Balls(List<Integer> list) {
+        this.balls = mapBall(list);
     }
-
-    public List<Ball> getBalls() {
+    
+    // 인스턴스 변수에 의존하지 않으므로 클래스 메서드로 가능
+    private static List<Ball> mapBall(List<Integer> answers) {
+        List<Ball> balls = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            balls.add(new Ball(i + 1, answers.get(i)));
+        }
         return balls;
     }
 
-    public BallStatus play(Ball com) {
-
-        List<BallStatus> statuses = new ArrayList<>();
-        for (Ball ball : balls) {
-            BallStatus status = ball.play(com);
-            statuses.add(status);
-        }
-
-        BallStatus status = statuses.stream().filter(e -> e.equals(BallStatus.STRIKE)).findAny().orElseGet(()->BallStatus.NOTHING);
-
-        if (status != BallStatus.NOTHING) {
-            return BallStatus.STRIKE;
-        }
-
-        status = statuses.stream().filter(e -> e.equals(BallStatus.BALL)).findAny().orElseGet(()->BallStatus.NOTHING);
-        if (status != BallStatus.NOTHING) {
-            return BallStatus.BALL;
-        }
-
-        return BallStatus.NOTHING;
-    }
-
-    public BallStatus plays(Balls coms) {
-        List<BallStatus> statuses = new ArrayList<>();
-        for (Ball ball : balls) {
-            BallStatus status = coms.play(ball);
-            statuses.add(status);
-        }
-
-        BallStatus status = statuses.stream().filter(e -> e.equals(BallStatus.STRIKE)).findAny().orElseGet(()->BallStatus.NOTHING);
-        if (status != BallStatus.NOTHING) {
-            return BallStatus.STRIKE;
-        }
-        status = statuses.stream().filter(e -> e.equals(BallStatus.BALL)).findAny().orElseGet(()->BallStatus.NOTHING);
-        if (status != BallStatus.NOTHING) {
-            return BallStatus.BALL;
-        }
-
-        return BallStatus.NOTHING;
+    public BallStatus play(Ball userBall) {
+        return balls.stream()
+                .map(answer -> answer.play(userBall))
+                .filter(BallStatus::isNotNothing)
+                .findFirst()
+                .orElse(BallStatus.NOTHING);
     }
 }
