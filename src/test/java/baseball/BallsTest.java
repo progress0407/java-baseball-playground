@@ -1,12 +1,8 @@
 package baseball;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,6 +28,15 @@ public class BallsTest {
         PlayResult result = answers.play(Arrays.asList(1, 4, 2));
         assertThat(result.getStrike()).isEqualTo(1);
         assertThat(result.getBall()).isEqualTo(1);
+    }
+
+    @Test
+    void play_3strike() {
+        Balls answers = new Balls(Arrays.asList(1, 2, 3));
+        PlayResult result = answers.play(Arrays.asList(1, 2, 3));
+        assertThat(result.getStrike()).isEqualTo(3);
+        assertThat(result.getBall()).isEqualTo(0);
+        assertThat(result.isGameEnd()).isTrue();
     }
 
     @Test

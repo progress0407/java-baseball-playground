@@ -2,22 +2,27 @@ package baseball;
 
 public class PlayResult {
 
-    private int strikeCount;
-    private int ballCount;
+    private int strike = 0;
+    private int ball = 0;
 
     public int getStrike() {
-        return strikeCount;
+        return strike;
     }
 
     public int getBall() {
-        return ballCount;
+        return ball;
     }
 
-    public void setStrikeCount(int strikeCount) {
-        this.strikeCount = strikeCount;
+    public void report(BallStatus status) {
+        if (status.isStrike()) {
+            strike += 1;
+        }
+        if (status.isBall()) {
+            ball += 1;
+        }
     }
 
-    public void setBallCount(int ballCount) {
-        this.ballCount = ballCount;
+    public boolean isGameEnd() {
+        return strike == 3;
     }
 }

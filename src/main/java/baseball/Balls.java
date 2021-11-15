@@ -3,6 +3,8 @@ package baseball;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.out;
+
 public class Balls {
 
     private List<Ball> answers;
@@ -20,31 +22,22 @@ public class Balls {
         return balls;
     }
 
-    public PlayResult play(List<Integer> userBallsArg) {
-        Balls userBalls = new Balls(userBallsArg);
+    public PlayResult play(List<Integer> balls) {
+        Balls userBalls = new Balls(balls);
         PlayResult result = new PlayResult();
-        List<BallStatus> ballStatuses = new ArrayList<>();
         for (Ball answer : answers) {
-            ballStatuses.add(userBalls.play(answer));
+            BallStatus status = userBalls.play(answer);
+            result.report(status);
         }
-        int strikeCount = (int) ballStatuses.stream()
-                .filter(e -> e == BallStatus.STRIKE)
-                .count();
-
-        int ballCount = (int) ballStatuses.stream()
-                .filter(e -> e == BallStatus.BALL)
-                .count();
-
-        result.setStrikeCount(strikeCount);
-        result.setBallCount(ballCount);
-
         return result;
     }
 
     public BallStatus play(Ball userBall) {
+        out.println("Balls.play");
         return answers.stream()
                 .map(answer -> answer.play(userBall))
                 .filter(BallStatus::isNotNothing)
+                .peek(out::println)
                 .findFirst()
                 .orElse(BallStatus.NOTHING);
     }
